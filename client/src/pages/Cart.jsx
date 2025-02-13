@@ -8,8 +8,11 @@ import Plus from "../assets/plus.svg";
 import { UserContext } from "../userContext";
 
 const Cart = () => {
-  const { cart } = useContext(UserContext);
-  console.log(cart);
+  const { cart, addtoCart, substractCart } = useContext(UserContext);
+
+  const totalCost = cart.reduce((prev, curr) => {
+    return prev + (curr.foodId?.price || 0) * curr.quantity;
+  }, 0)
 
   return (
     <div className="container mx-auto flex items-start justify-between gap-5">
@@ -31,20 +34,20 @@ const Cart = () => {
                 </div>
                 <div className="w-full flex items-center justify-between my-3">
                   <div className="flex items-center justify-between gap-3">
-                    <img className="cursor-pointer" src={Minus} alt="minus" />
+                    <img className="cursor-pointer" src={Minus} onClick={() => substractCart(item.foodId._id)} alt="minus" />
                     <p className="font-bold">{item.quantity}</p>
-                    <img className="cursor-pointer" src={Plus} alt="plus" />
+                    <img className="cursor-pointer" onClick={() => addtoCart(item.foodId._id)} src={Plus} alt="plus" />
                   </div>
                   <p className="text-xl text-orange-500 font-extrabold">
-                    <span>{(item.foodId.price * item.quantity).toFixed(2)}</span>$
+                    <span>{((item.foodId?.price || 0) * item.quantity).toFixed(2)}</span>$
                   </p>
                 </div>
               </div>
             ))}
+            <p>total cost <span>{totalCost.toFixed(2)} $</span></p>
           </div>
         )}
 
-        <p>total cost</p>
       </div>
     </div>
   );

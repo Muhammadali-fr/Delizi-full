@@ -13,6 +13,7 @@ import Login from './pages/Login';
 import Signup from './pages/Signup';
 import PageNotFound from './pages/PageNotFound';
 import Logout from './pages/Logout';
+import Admin from './pages/Admin';
 
 axios.defaults.baseURL = "http://localhost:5000/"
 axios.defaults.withCredentials = true;
@@ -51,6 +52,10 @@ const App = () => {
     {
       path: '/sign-up',
       element: <Signup />
+    },
+    {
+      path: "/admin",
+      element: <Admin />
     },
     {
       path: '/*',

@@ -25,7 +25,7 @@ export function UserContextProvider({ children }) {
       const { data } = await axios.get(`/api/cart/${userId}`)
       setCart(data.cart)
     }
-    fetchCart();
+    if (user) fetchCart();
   }, [user])
 
   const addtoCart = async (foodId) => {
@@ -36,12 +36,23 @@ export function UserContextProvider({ children }) {
     setCart(data.cart);
   }
 
+  const substractCart = async (foodId) => {
+    const userId = user?._id;
+    if (!userId) return alert("ovqatni ochirish uchun user id kerak.")
+    try {
+      await axios.post("/api/subtract-cart", { foodId, userId })
+
+    } catch (error) {
+      alert("removing err")
+    }
+  }
+
   const cartLength = cart.length;
   console.log(cartLength);
 
 
   return (
-    <UserContext.Provider value={{ user, setUser, addtoCart, cart, cartLength }}>
+    <UserContext.Provider value={{ user, setUser, addtoCart, cart, cartLength, substractCart }}>
       {children}
     </UserContext.Provider>
   );
