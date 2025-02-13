@@ -23,7 +23,7 @@ const upload = multer({ storage });
 
 router.get("/", getAllFood); 
 
-router.post("/add", adminMiddleWare, upload.single("image"), addFood);
+router.post("/add", upload.single("image"), addFood);
 
 router.get("/:id", getFoodByID);
 
